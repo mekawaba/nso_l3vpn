@@ -1,0 +1,81 @@
+module l3vpn {
+
+  namespace "http://example.com/l3vpn";
+  prefix l3vpn;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+
+  list l3vpn {
+    description "This is an RFS skeleton service";
+
+    key name;
+    leaf name {
+      tailf:info "Unique service id";
+      tailf:cli-allow-range;
+      type string;
+    }
+
+    uses ncs:service-data;
+    ncs:servicepoint l3vpn-servicepoint;
+
+    // may replace this with other ways of refering to the devices.
+    leaf dev1 {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+    leaf dev2 {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+
+
+    // replace with your own stuff here
+    leaf dev1-addr {
+      type inet:ipv4-address;
+    }
+    leaf dev2-addr {
+      type inet:ipv4-address;
+    }
+    leaf dev1-port {
+      type inet:port-number {
+        range "0..10" {
+          error-message "Port Number must be within 0 to 10";
+        }
+      }
+    }
+    leaf dev2-port {
+      type inet:port-number {
+        range "0..10" {
+          error-message "Port Number must be within 0 to 10";
+        }
+      }
+    }
+    leaf vrf {
+      type string;
+    }
+    leaf rt_rd {
+      type string;
+    }
+    leaf color {
+      type string;
+    }
+  }
+}
